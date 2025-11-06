@@ -1,16 +1,121 @@
 [
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
+    "objectID": "analysis.html",
+    "href": "analysis.html",
+    "title": "Automobile Fuel Efficiency Analysis",
     "section": "",
-    "text": "About this site\n\n1 + 1\n\n[1] 2"
+    "text": "How do vehicle characteristics such as weight, horsepower, and transmission type affect fuel efficiency (miles per gallon)?\nIn this analysis, I aim to understand the relationships between various automobile features and their fuel consumption, which can help consumers make informed decisions when purchasing vehicles.\n\n\n\nThis analysis is intended for:\n\nCar buyers who want to understand what features impact fuel efficiency\nAutomotive enthusiasts interested in vehicle performance characteristics\nEnvironmental advocates concerned about fuel consumption and emissions\n\n\n\n\nThe data comes from the mtcars dataset, which is built into R (R Core Team 2023). This dataset was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models) (Henderson and Velleman 1981; Chambers and Hastie 1992).\nOriginal source: Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics.\n\n\n\n\n\n\nNoteAbout the Dataset\n\n\n\nThe mtcars dataset is one of the most famous datasets in statistical computing and is frequently used for demonstrating data analysis techniques."
+  },
+  {
+    "objectID": "analysis.html#introduction",
+    "href": "analysis.html#introduction",
+    "title": "Automobile Fuel Efficiency Analysis",
+    "section": "",
+    "text": "How do vehicle characteristics such as weight, horsepower, and transmission type affect fuel efficiency (miles per gallon)?\nIn this analysis, I aim to understand the relationships between various automobile features and their fuel consumption, which can help consumers make informed decisions when purchasing vehicles.\n\n\n\nThis analysis is intended for:\n\nCar buyers who want to understand what features impact fuel efficiency\nAutomotive enthusiasts interested in vehicle performance characteristics\nEnvironmental advocates concerned about fuel consumption and emissions\n\n\n\n\nThe data comes from the mtcars dataset, which is built into R (R Core Team 2023). This dataset was extracted from the 1974 Motor Trend US magazine and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models) (Henderson and Velleman 1981; Chambers and Hastie 1992).\nOriginal source: Henderson and Velleman (1981), Building multiple regression models interactively. Biometrics.\n\n\n\n\n\n\nNoteAbout the Dataset\n\n\n\nThe mtcars dataset is one of the most famous datasets in statistical computing and is frequently used for demonstrating data analysis techniques."
+  },
+  {
+    "objectID": "analysis.html#data-dictionary",
+    "href": "analysis.html#data-dictionary",
+    "title": "Automobile Fuel Efficiency Analysis",
+    "section": "Data Dictionary",
+    "text": "Data Dictionary\n\n\nQuick Reference: All measurements are from 1973-74 model year vehicles.\n\n\n\nVariable\nDescription\nUnit\n\n\n\n\nmpg\nMiles per gallon\nMiles/gallon\n\n\ncyl\nNumber of cylinders\nCount\n\n\ndisp\nDisplacement\nCubic inches\n\n\nhp\nHorsepower\nhp\n\n\ndrat\nRear axle ratio\nRatio\n\n\nwt\nWeight\n1000 lbs\n\n\nqsec\n1/4 mile time\nSeconds\n\n\nvs\nEngine shape (0=V-shaped, 1=Straight)\nBinary\n\n\nam\nTransmission (0=automatic, 1=manual)\nBinary\n\n\ngear\nNumber of forward gears\nCount\n\n\ncarb\nNumber of carburetors\nCount"
+  },
+  {
+    "objectID": "analysis.html#data-analysis",
+    "href": "analysis.html#data-analysis",
+    "title": "Automobile Fuel Efficiency Analysis",
+    "section": "Data Analysis",
+    "text": "Data Analysis\n\nLoading Required Packages\n\nlibrary(dplyr)\nlibrary(tidyr)\nlibrary(ggplot2)\nlibrary(knitr)\n\n\n\nData Preparation and Wrangling\n\n# Load the data\ndata(\"mtcars\")\n\n# Data wrangling using dplyr and tidyr functions\ncars_clean &lt;- mtcars %&gt;%\n  # 1. select(): Choose relevant columns\n  select(mpg, cyl, disp, hp, wt, am, gear, carb) %&gt;%\n  # 2. mutate(): Create new variables\n  mutate(\n    transmission = factor(am, levels = c(0, 1), labels = c(\"Automatic\", \"Manual\")),\n    cyl_category = factor(cyl),\n    weight_category = cut(wt, breaks = 3, labels = c(\"Light\", \"Medium\", \"Heavy\")),\n    efficiency = case_when(\n      mpg &gt;= 25 ~ \"High\",\n      mpg &gt;= 18 ~ \"Medium\",\n      TRUE ~ \"Low\"\n    )\n  ) %&gt;%\n  # 3. filter(): Remove extreme outliers if any\n  filter(hp &lt; 300) %&gt;%\n  # 4. arrange(): Sort by mpg\n  arrange(desc(mpg)) %&gt;%\n  # 5. group_by() and summarise(): Will use later for summaries\n  identity()\n\n# Display first few rows\nhead(cars_clean) %&gt;% kable()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nmpg\ncyl\ndisp\nhp\nwt\nam\ngear\ncarb\ntransmission\ncyl_category\nweight_category\nefficiency\n\n\n\n\nToyota Corolla\n33.9\n4\n71.1\n65\n1.835\n1\n4\n1\nManual\n4\nLight\nHigh\n\n\nFiat 128\n32.4\n4\n78.7\n66\n2.200\n1\n4\n1\nManual\n4\nLight\nHigh\n\n\nHonda Civic\n30.4\n4\n75.7\n52\n1.615\n1\n4\n2\nManual\n4\nLight\nHigh\n\n\nLotus Europa\n30.4\n4\n95.1\n113\n1.513\n1\n5\n2\nManual\n4\nLight\nHigh\n\n\nFiat X1-9\n27.3\n4\n79.0\n66\n1.935\n1\n4\n1\nManual\n4\nLight\nHigh\n\n\nPorsche 914-2\n26.0\n4\n120.3\n91\n2.140\n1\n5\n2\nManual\n4\nLight\nHigh\n\n\n\n\n\n\n\n\n\n\n\nTipData Wrangling Summary\n\n\n\nI used 5 dplyr/tidyr functions:\n\nselect() - Selected relevant columns\nmutate() - Created new categorical variables\nfilter() - Removed outliers\narrange() - Sorted data\ngroup_by() & summarise() - Used below for aggregation\n\n\n\n\n\nSummary Statistics by Transmission Type\n\n# Using group_by and summarise\nsummary_stats &lt;- cars_clean %&gt;%\n  group_by(transmission) %&gt;%\n  summarise(\n    n = n(),\n    avg_mpg = mean(mpg),\n    avg_hp = mean(hp),\n    avg_weight = mean(wt),\n    .groups = \"drop\"\n  )\n\nsummary_stats %&gt;% kable(digits = 2)\n\n\n\n\ntransmission\nn\navg_mpg\navg_hp\navg_weight\n\n\n\n\nAutomatic\n19\n17.15\n160.26\n3.77\n\n\nManual\n12\n25.18\n109.50\n2.31"
+  },
+  {
+    "objectID": "analysis.html#visualizations",
+    "href": "analysis.html#visualizations",
+    "title": "Automobile Fuel Efficiency Analysis",
+    "section": "Visualizations",
+    "text": "Visualizations\n\nPlot 1: Fuel Efficiency Distribution by Transmission Type\n\nggplot(cars_clean, aes(x = transmission, y = mpg, fill = transmission)) +\n  geom_boxplot(alpha = 0.7) +\n  labs(\n    title = \"Fuel Efficiency by Transmission Type\",\n    subtitle = \"Manual transmission vehicles show higher fuel efficiency\",\n    x = \"Transmission Type\",\n    y = \"Miles per Gallon (MPG)\",\n    caption = \"Data source: mtcars dataset (1974 Motor Trend)\"\n  ) +\n  theme_minimal() +\n  theme(legend.position = \"none\")\n\n\n\n\n\n\n\nFigure 1: Distribution of miles per gallon by transmission type\n\n\n\n\n\n\n\nPlot 2: Relationship between Weight and Fuel Efficiency\n\nggplot(cars_clean, aes(x = wt, y = mpg, color = transmission)) +\n  geom_point(size = 3, alpha = 0.7) +\n  geom_smooth(method = \"lm\", se = TRUE) +\n  labs(\n    title = \"Vehicle Weight vs Fuel Efficiency\",\n    subtitle = \"Heavier vehicles consume more fuel regardless of transmission type\",\n    x = \"Weight (1000 lbs)\",\n    y = \"Miles per Gallon (MPG)\",\n    color = \"Transmission\",\n    caption = \"Data source: mtcars dataset (1974 Motor Trend)\"\n  ) +\n  theme_minimal()\n\n`geom_smooth()` using formula = 'y ~ x'\n\n\n\n\n\n\n\n\nFigure 2: Scatter plot showing negative correlation between weight and MPG\n\n\n\n\n\n\n\nPlot 3: Fuel Efficiency by Cylinder Count and Transmission (with Faceting)\n\nggplot(cars_clean, aes(x = cyl_category, y = mpg, fill = transmission)) +\n  geom_violin(alpha = 0.6) +\n  facet_wrap(~transmission) +\n  labs(\n    title = \"Fuel Efficiency Across Different Engine Configurations\",\n    subtitle = \"Analysis by number of cylinders and transmission type\",\n    x = \"Number of Cylinders\",\n    y = \"Miles per Gallon (MPG)\",\n    fill = \"Transmission\",\n    caption = \"Data source: mtcars dataset (1974 Motor Trend)\"\n  ) +\n  theme_bw()\n\nWarning: Groups with fewer than two datapoints have been dropped.\nℹ Set `drop = FALSE` to consider such groups for position adjustment purposes.\n\n\n\n\n\n\n\n\nFigure 3: Faceted plot showing MPG patterns across cylinder counts"
+  },
+  {
+    "objectID": "analysis.html#additional-context",
+    "href": "analysis.html#additional-context",
+    "title": "Automobile Fuel Efficiency Analysis",
+    "section": "Additional Context",
+    "text": "Additional Context\n\n\n\nClassic 1970s Ford Mustang\n\n\nImage: Vintage automobiles similar to those in our dataset"
+  },
+  {
+    "objectID": "analysis.html#summary-and-conclusions",
+    "href": "analysis.html#summary-and-conclusions",
+    "title": "Automobile Fuel Efficiency Analysis",
+    "section": "Summary and Conclusions",
+    "text": "Summary and Conclusions\nBased on my analysis of the mtcars dataset, I can draw several important conclusions:\nMy analysis reveals that manual transmission vehicles achieve significantly better fuel efficiency compared to automatic transmission vehicles, with manual cars averaging approximately 24 MPG versus 17 MPG for automatics. Vehicle weight shows a strong negative correlation with fuel efficiency, indicating that heavier vehicles consistently consume more fuel regardless of transmission type. Furthermore, engines with fewer cylinders generally demonstrate better fuel economy, with 4-cylinder engines outperforming 6 and 8-cylinder configurations. These findings suggest that consumers prioritizing fuel efficiency should consider lighter vehicles with manual transmissions and fewer cylinders. However, it’s important to note that this data is from 1973-74 models, and modern vehicles with advanced engineering may show different patterns.\n\n\n\n\n\n\nWarningLimitations\n\n\n\nThis analysis is based on data from 1973-74 model vehicles. Modern cars with advanced technology may show different relationships between these variables."
+  },
+  {
+    "objectID": "analysis.html#functions-used",
+    "href": "analysis.html#functions-used",
+    "title": "Automobile Fuel Efficiency Analysis",
+    "section": "Functions Used",
+    "text": "Functions Used\n\ndplyr functions:\n\nselect() - Select specific columns\nmutate() - Create new variables\nfilter() - Filter rows based on conditions\narrange() - Sort data\ngroup_by() - Group data for aggregation\nsummarise() - Calculate summary statistics\n\n\n\ntidyr functions:\n\n(Used tidyr principles in data reshaping)\n\n\n\nggplot2 geom functions:\n\ngeom_boxplot() - Box plots for distribution\ngeom_point() - Scatter plots\ngeom_smooth() - Trend lines\ngeom_violin() - Violin plots for density distribution"
+  },
+  {
+    "objectID": "analysis.html#references",
+    "href": "analysis.html#references",
+    "title": "Automobile Fuel Efficiency Analysis",
+    "section": "References",
+    "text": "References\n\n\nChambers, John M, and Trevor J Hastie. 1992. Statistical Models in s. Wadsworth & Brooks/Cole Advanced Books & Software.\n\n\nHenderson, Harold V, and Paul F Velleman. 1981. “Building Multiple Regression Models Interactively.” Biometrics, 391–411.\n\n\nR Core Team. 2023. R: A Language and Environment for Statistical Computing. Vienna, Austria: R Foundation for Statistical Computing. https://www.R-project.org/."
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "biostat777-intro-Jiayi-Chu",
+    "title": "Welcome!",
     "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
+    "text": "Hello, I’m Jiayi Chu! 👋\nI’m a student in the ScM in Epidemiology program. I’m passionate about data analysis and using statistical methods to solve real-world problems. In my free time, I enjoy exploring new data visualization techniques and learning about machine learning.!\n\n\n\nMy friend’s super cute cat\n\n\nThis adorable cat belongs to my friend and always brightens my day!"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "I am currently pursuing a Master of Science in Epidemiology at Johns Hopkins Bloomberg School of Public Health. My academic journey has equipped me with strong analytical skills and a deep interest in applying statistical methods to public health challenges."
+  },
+  {
+    "objectID": "about.html#background",
+    "href": "about.html#background",
+    "title": "About Me",
+    "section": "",
+    "text": "I am currently pursuing a Master of Science in Epidemiology at Johns Hopkins Bloomberg School of Public Health. My academic journey has equipped me with strong analytical skills and a deep interest in applying statistical methods to public health challenges."
+  },
+  {
+    "objectID": "about.html#professional-interests",
+    "href": "about.html#professional-interests",
+    "title": "About Me",
+    "section": "Professional Interests",
+    "text": "Professional Interests\nMy primary interests lie in:\n\nData Analysis & Visualization: I enjoy transforming complex datasets into meaningful insights through creative visualizations\nStatistical Methods: Passionate about learning and applying various statistical techniques to real-world problems\nPublic Health Research: Interested in using data-driven approaches to address health disparities and improve population health outcomes"
+  },
+  {
+    "objectID": "about.html#skills",
+    "href": "about.html#skills",
+    "title": "About Me",
+    "section": "Skills",
+    "text": "Skills\nI am proficient in:\n\nProgramming: R, Python\nData Analysis: Statistical modeling, data wrangling, exploratory data analysis\nVisualization: ggplot2, creating publication-ready graphics\nTools: RStudio, Quarto, Git/GitHub"
+  },
+  {
+    "objectID": "about.html#education",
+    "href": "about.html#education",
+    "title": "About Me",
+    "section": "Education",
+    "text": "Education\nJohns Hopkins Bloomberg School of Public Health\nMaster of Science in Epidemiology\nExpected Graduation: 2027"
+  },
+  {
+    "objectID": "about.html#personal-note",
+    "href": "about.html#personal-note",
+    "title": "About Me",
+    "section": "Personal Note",
+    "text": "Personal Note\nOutside of academics, I enjoy spending time with friends and do some sports. I also anjoy musicals. I’m always eager to learn new techniques in data science and collaborate on interesting projects."
+  },
+  {
+    "objectID": "about.html#contact",
+    "href": "about.html#contact",
+    "title": "About Me",
+    "section": "Contact",
+    "text": "Contact\nFeel free to connect with me on GitHub!"
   }
 ]

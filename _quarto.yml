@@ -1,21 +1,22 @@
 project:
   type: website
+  output-dir: _site
 
 website:
-  title: "biostat777-intro-Jiayi-Chu"
+  title: "Jiayi Chu"
   navbar:
     left:
       - href: index.qmd
         text: Home
-      - about.qmd
+      - href: about.qmd
+        text: About
+      - href: analysis.qmd
+        text: Example Analysis
 
 format:
   html:
-    theme:
-      - cosmo
-      - brand
+    theme: cosmo
     css: styles.css
     toc: true
 
-editor: visual
-
+bibliography: references.bib

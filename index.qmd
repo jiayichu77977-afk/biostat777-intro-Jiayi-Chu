@@ -1,11 +1,11 @@
 ---
-title: "biostat777-intro-Jiayi-Chu"
+title: "Welcome!"
 ---
 
-This is a Quarto website.
+# Hello, I'm Jiayi Chu! 👋
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+I'm a student in the ScM in Epidemiology program. I'm passionate about data analysis and using statistical methods to solve real-world problems. In my free time, I enjoy exploring new data visualization techniques and learning about machine learning.!
 
-```{r}
-1 + 1
-```
+![My friend's super cute cat](cat.jpg)
+
+*This adorable cat belongs to my friend and always brightens my day!*

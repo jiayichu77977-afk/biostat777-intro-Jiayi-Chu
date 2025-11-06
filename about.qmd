@@ -1,9 +1,38 @@
 ---
-title: "About"
+title: "About Me"
 ---
 
-About this site
+## Background
 
-```{r}
-1 + 1
-```
+I am currently pursuing a Master of Science in Epidemiology at Johns Hopkins Bloomberg School of Public Health. My academic journey has equipped me with strong analytical skills and a deep interest in applying statistical methods to public health challenges.
+
+## Professional Interests
+
+My primary interests lie in:
+
+- **Data Analysis & Visualization**: I enjoy transforming complex datasets into meaningful insights through creative visualizations
+- **Statistical Methods**: Passionate about learning and applying various statistical techniques to real-world problems
+- **Public Health Research**: Interested in using data-driven approaches to address health disparities and improve population health outcomes
+
+## Skills
+
+I am proficient in:
+
+- **Programming**: R, Python
+- **Data Analysis**: Statistical modeling, data wrangling, exploratory data analysis
+- **Visualization**: ggplot2, creating publication-ready graphics
+- **Tools**: RStudio, Quarto, Git/GitHub
+
+## Education
+
+**Johns Hopkins Bloomberg School of Public Health**  
+Master of Science in Epidemiology  
+*Expected Graduation: 2027*
+
+## Personal Note
+
+Outside of academics, I enjoy spending time with friends and do some sports. I also anjoy musicals. I'm always eager to learn new techniques in data science and collaborate on interesting projects.
+
+## Contact
+
+Feel free to connect with me on [GitHub](https://github.com/jiayichu77977-afk)!
