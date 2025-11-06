@@ -187,7 +187,7 @@ ggplot(cars_clean, aes(x = cyl_category, y = mpg, fill = transmission)) +
 
 ## Additional Context
 
-![Classic 1970s Ford Mustang](https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=800&q=80)
+![Classic 1970s Ford Mustang](https://images.unsplash.com/photo-1579211897986-63e1fcd564e0?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=774)
 
 *Image: Vintage automobiles similar to those in our dataset*
 
